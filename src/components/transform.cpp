@@ -45,3 +45,32 @@ glm::mat4 Transform::getModel()
 
     return m_Model; 
 }
+
+
+glm::vec3 Transform::right() 
+{
+    // in world-space
+    glm::vec3 up(0, 1, 0); 
+
+    return glm::normalize(glm::cross(up, this->backwards() ));
+}
+glm::vec3 Transform::left()
+{
+
+}
+glm::vec3 Transform::up()
+{
+
+}
+glm::vec3 Transform::down()
+{
+
+}
+glm::vec3 forwards()
+{
+
+}
+glm::vec3 backwards()
+{
+
+}
