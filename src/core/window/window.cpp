@@ -1,33 +1,63 @@
-
-#include <iostream>
+#include <glad/glad.h>
+#include <core/debug/log.hpp>
 
 #include "window.hpp"
+
+void Window::init(int desiredGLVersionMajor, int desiredGLVersionMinor, GLFWerrorfun glfwErrorCallback)
+{
+    if (!glfwInit())
+    {
+        Debug::error("Failed to initialize GLFW!");
+        return;
+    }
+    glfwSetErrorCallback(glfwErrorCallback);
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, desiredGLVersionMajor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, desiredGLVersionMinor);
+
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+void Window::loadGL()
+{
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        Debug::error("Failed to load OpenGL!");
+    } 
+}
+
+void Window::create(WindowSettings settings)
+{
+    if (!settings.fullscreen)
+    {
+        m_Window = glfwCreateWindow(settings.width, settings.height, settings.name, NULL, NULL);
+    } else
+    {
+        m_Window = glfwCreateWindow(settings.width, settings.height, settings.name, glfwGetPrimaryMonitor(), NULL);    
+    }
+    if (m_Window == NULL)
+    {
+        Debug::error("Failed to create glfwWindow!");
+    }
+}
+
+void Window::makeContextCurrent()
+{
+    glfwMakeContextCurrent(this->m_Window);
+}
+
+Window::Window(WindowSettings settings)
+{
+    this->create(settings);
+}
 
 Window::~Window()
 {
     glfwDestroyWindow(m_Window);
 }
-void Window::create(int width, int height, const char* name, bool fullscreen)
-{
-    if (!fullscreen)
-    {
-        m_Window = glfwCreateWindow(width, height, name, NULL, NULL);
-    } else
-    {
-        m_Window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);    
-    }
-    if (m_Window == NULL)
-    {
-        std::cout << "Failed to create GLFW window!" << std::endl;
-        throw std::runtime_error("Failed to initialize GLFWwindow! ");
-    }
 
-    glfwMakeContextCurrent(this->m_Window);
-}
-
-Window::Window(int width, int height, const char* name, bool fullscreen)
+void Window::close()
 {
-    this->create(width, height, name, fullscreen);
+    glfwSetWindowShouldClose(this->m_Window, GLFW_TRUE);
 }
 
 GLFWwindow* Window::getWindow()

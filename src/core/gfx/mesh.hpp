@@ -14,10 +14,10 @@ struct Vertex {
 class Mesh {
 public:
     Mesh() { glGenBuffers(1, &VBO); glGenVertexArrays(1, &VAO); vertices = {}; }
-    Mesh(std::vector<float> vertices, Shader shader);
+    Mesh(std::vector<float> vertices);
 
 public:
     std::vector<float> vertices;
+    
     unsigned int VAO, VBO;
-    Shader shader;
 };

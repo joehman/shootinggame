@@ -23,7 +23,6 @@ std::string loadTextFromFile(std::string path)
         str += line + '\n';
     }
 
-
     return str;
 }
 

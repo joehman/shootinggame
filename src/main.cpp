@@ -1,13 +1,19 @@
 #define GLFW_INCLUDE_NONE
-
 #include <game.hpp>
-#include <core/debug/log.hpp>
 
 int main()
 {
-    Game game = Game(4,3);
+    Game game;
 
-    game.init(800,600, "game", false);
+    game.init((GameSettings){
+        .windowSettings = (WindowSettings){
+            .width = 1920,
+            .height = 1080,
+
+            .name = "Game",
+            .fullscreen = false,
+        }
+    });
 
     game.start();
 }

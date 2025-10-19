@@ -12,12 +12,12 @@ public:
     bool exists();
 
     template<typename Type>
-    bool HasComponent()
+    inline bool HasComponent()
     {
         return m_Scene.getRegistry().all_of<Type>(m_Entity);
     }
     template<typename Type, typename ...Args>
-    void AddComponent(Args ...args)
+    inline void AddComponent(Args ...args)
     {
         if (HasComponent<Type>())
         {
@@ -28,7 +28,7 @@ public:
     }
 
     template<typename Type>
-    void RemoveComponent()
+    inline void RemoveComponent()
     {
         if (!HasComponent<Type>())
         {
@@ -37,7 +37,7 @@ public:
         m_Scene.getRegistry().erase<Type>(m_Entity);
     }
     template<typename Type>
-    auto& GetComponent()
+    inline auto& GetComponent()
     {
         if (!HasComponent<Type>())
         {
