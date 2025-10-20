@@ -24,7 +24,7 @@ float vertices[] = {
 
 void Game::init(GameSettings settings)
 {
-    Window::init(4,6, Debug::glfwErrorCallback);
+    Window::init(3, 3, Debug::glfwErrorCallback);
 
     m_Window.create(settings.windowSettings);
     m_Window.makeContextCurrent();
@@ -74,6 +74,11 @@ void Game::frame()
         RenderSystem::update(mainScene);
 
         m_Window.updateWindow();
+    
+        if (glfwGetKey(m_Window.getWindow(), GLFW_KEY_ESCAPE))
+        {
+            m_Window.close();
+        }
     }
 }
 

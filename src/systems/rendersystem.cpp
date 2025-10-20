@@ -14,7 +14,6 @@
 #include <ecs/entity.hpp>
 
 Entity* RenderSystem::mainCamera = NULL;
-
 Shader defaultShader;
 
 void RenderSystem::update(Scene& scene)

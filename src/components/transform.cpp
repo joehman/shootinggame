@@ -46,7 +46,7 @@ glm::mat4 Transform::getModel()
     return m_Model; 
 }
 
-
+/*
 glm::vec3 Transform::right() 
 {
     // in world-space
@@ -56,21 +56,22 @@ glm::vec3 Transform::right()
 }
 glm::vec3 Transform::left()
 {
-
+    return glm::vec3(0,0,0);
 }
 glm::vec3 Transform::up()
 {
-
+    return glm::vec3(0,0,0);
 }
 glm::vec3 Transform::down()
 {
-
+    return glm::vec3(0,0,0);
 }
 glm::vec3 forwards()
 {
-
+    return glm::vec3(0,0,0);
 }
 glm::vec3 backwards()
 {
-
+    return glm::vec3(0,0,0);
 }
+*/

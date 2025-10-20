@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <print>
+
+#include <core/debug/log.hpp>
 
 std::string loadTextFromFile(std::string path)
 {
@@ -12,7 +13,7 @@ std::string loadTextFromFile(std::string path)
 
     if (!file.is_open())
     {
-        std::println("Failed to open file {}", path);
+        Debug::log("Failed to open file {}", path);
         return " ";
     }
 

@@ -3,7 +3,7 @@
 #include <entt/entt.hpp>
 #include "scene.hpp"
 
-#include <print>
+#include <core/debug/log.hpp>
 
 class Entity {
 public:
@@ -21,7 +21,7 @@ public:
     {
         if (HasComponent<Type>())
         {
-            std::println("Cannot add a Component which an Entity already has!");
+            Debug::log("Cannot add a Component which an Entity already has!");
             return;
         }
         m_Scene.getRegistry().emplace<Type>(m_Entity, args...);
@@ -32,7 +32,7 @@ public:
     {
         if (!HasComponent<Type>())
         {
-            std::println("Cannot remove a Component which an Entity does not have!");
+            Debug::log("Cannot remove a Component which an Entity does not have!");
         }
         m_Scene.getRegistry().erase<Type>(m_Entity);
     }

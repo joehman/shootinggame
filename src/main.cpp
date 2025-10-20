@@ -7,8 +7,8 @@ int main()
 
     game.init((GameSettings){
         .windowSettings = (WindowSettings){
-            .width = 1920,
-            .height = 1080,
+            .width = 800,
+            .height = 600,
 
             .name = "Game",
             .fullscreen = false,
