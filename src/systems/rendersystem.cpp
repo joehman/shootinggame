@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <ecs/entity.hpp>
+#include <memory>
 
 Entity* RenderSystem::mainCamera = NULL;
 Shader defaultShader;
@@ -46,7 +47,7 @@ void RenderSystem::update(Scene& scene)
         
         defaultShader.setMat4("perspective", camera.getProjection());
         defaultShader.setMat4("model", transform->getModel());
-        defaultShader.setMat4("view", view.getModel());
+        defaultShader.setMat4("view", glm::inverse(view.getModel()));
             
         glBindVertexArray(meshfilter->mesh.VAO);
         glDrawArrays(GL_TRIANGLES, 0, meshfilter->mesh.vertices.size());
@@ -77,5 +78,5 @@ void RenderSystem::init(Scene& scene)
 
 void RenderSystem::setMainCamera(Entity* camera)
 {
-    RenderSystem::mainCamera = camera;
+    RenderSystem::mainCamera = camera; 
 }

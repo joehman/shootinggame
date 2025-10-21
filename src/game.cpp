@@ -12,6 +12,7 @@
 #include <systems/rendersystem.hpp>
 
 #include <core/debug/log.hpp>
+#include <core/time.hpp>
 
 Scene mainScene;
 
@@ -54,7 +55,7 @@ void Game::start()
     testobj.AddComponent<Transform>(glm::vec3(0,0,0), glm::vec3(1,1,1), glm::vec3(0,0,0));
     testobj.AddComponent<MeshFilter>(Mesh(vec));
 
-    camera.AddComponent<Transform>(glm::vec3(0,0, -3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
+    camera.AddComponent<Transform>(glm::vec3(0,0, 3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
     camera.AddComponent<Camera>((float)m_Window.getWidth()/(float)m_Window.getHeight());
 
     RenderSystem::setMainCamera(&camera);
@@ -69,6 +70,8 @@ void Game::frame()
 
     while (!m_Window.shouldClose())
     {
+        Time::frameStart();
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         RenderSystem::update(mainScene);
