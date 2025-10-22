@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <ecs/entity.hpp>
+#include <memory>
 
 Entity* RenderSystem::mainCamera = NULL;
 Shader defaultShader;
@@ -77,5 +78,5 @@ void RenderSystem::init(Scene& scene)
 
 void RenderSystem::setMainCamera(Entity* camera)
 {
-    RenderSystem::mainCamera = camera;
+    RenderSystem::mainCamera = camera; 
 }

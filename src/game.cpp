@@ -74,9 +74,9 @@ void Game::frame()
 
     while (!m_Window.shouldClose())
     {
-        Time::frameStart(); 
-
+        Time::frameStart();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         RenderSystem::update(mainScene);
 
         m_Window.updateWindow();
