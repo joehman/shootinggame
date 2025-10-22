@@ -46,7 +46,7 @@ void RenderSystem::update(Scene& scene)
         
         defaultShader.setMat4("perspective", camera.getProjection());
         defaultShader.setMat4("model", transform->getModel());
-        defaultShader.setMat4("view", view.getModel());
+        defaultShader.setMat4("view", glm::inverse(view.getModel()));
             
         glBindVertexArray(meshfilter->mesh.VAO);
         glDrawArrays(GL_TRIANGLES, 0, meshfilter->mesh.vertices.size());

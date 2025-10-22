@@ -1,3 +1,4 @@
+#include <chrono>
 #include <game.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -8,10 +9,12 @@
 #include <components/meshfilter.hpp>
 #include <components/transform.hpp>
 #include <components/camera.hpp>
+#include <components/player.hpp>
 
 #include <systems/rendersystem.hpp>
 
 #include <core/debug/log.hpp>
+#include <core/time.hpp>
 
 Scene mainScene;
 
@@ -54,8 +57,9 @@ void Game::start()
     testobj.AddComponent<Transform>(glm::vec3(0,0,0), glm::vec3(1,1,1), glm::vec3(0,0,0));
     testobj.AddComponent<MeshFilter>(Mesh(vec));
 
-    camera.AddComponent<Transform>(glm::vec3(0,0, -3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
+    camera.AddComponent<Transform>(glm::vec3(0,0, 3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
     camera.AddComponent<Camera>((float)m_Window.getWidth()/(float)m_Window.getHeight());
+    camera.AddComponent<Player>();
 
     RenderSystem::setMainCamera(&camera);
 
@@ -65,16 +69,17 @@ void Game::start()
 
 void Game::frame()
 { 
+    
     RenderSystem::init(mainScene);
 
     while (!m_Window.shouldClose())
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        Time::frameStart(); 
 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         RenderSystem::update(mainScene);
 
         m_Window.updateWindow();
-    
         if (glfwGetKey(m_Window.getWindow(), GLFW_KEY_ESCAPE))
         {
             m_Window.close();

@@ -1,11 +1,22 @@
 #include "time.hpp"
+#include <chrono>
 
-using namespace std::chrono;
+using _clock = std::chrono::steady_clock;
 
-steady_clock::time_point Time::m_ApplicationStart = steady_clock::now();
-steady_clock::time_point Time::m_GameStart = m_ApplicationStart;
+_clock::time_point Time::m_LastFrame;
+float Time::m_DeltaTime = 0;
 
-void Time::gameStart()
+_clock::time_point Time::now()
 {
-    m_GameStart = steady_clock::now();
+    return _clock::now();
 }
+    
+void Time::frameStart()
+{ 
+    auto now = Time::now();
+    
+    Time::m_DeltaTime = std::chrono::duration<float>(now - m_LastFrame).count();
+
+    Time::m_LastFrame = now; 
+}
+

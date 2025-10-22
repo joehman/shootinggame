@@ -46,32 +46,28 @@ glm::mat4 Transform::getModel()
     return m_Model; 
 }
 
-/*
+
 glm::vec3 Transform::right() 
 {
-    // in world-space
-    glm::vec3 up(0, 1, 0); 
-
-    return glm::normalize(glm::cross(up, this->backwards() ));
+    return glm::normalize(getModel()[0]);
 }
 glm::vec3 Transform::left()
 {
-    return glm::vec3(0,0,0);
+    return -right();
 }
 glm::vec3 Transform::up()
 {
-    return glm::vec3(0,0,0);
+    return glm::normalize(getModel()[1]);
 }
 glm::vec3 Transform::down()
 {
-    return glm::vec3(0,0,0);
+    return -up();
 }
-glm::vec3 forwards()
+glm::vec3 Transform::backwards()
 {
-    return glm::vec3(0,0,0);
+    return glm::normalize(getModel()[2]);
 }
-glm::vec3 backwards()
+glm::vec3 Transform::forwards()
 {
-    return glm::vec3(0,0,0);
+    return -backwards();
 }
-*/

@@ -16,14 +16,14 @@ public:
     glm::vec3 getPosition() const { return m_Position; };
     glm::vec3 getScale() const { return m_Scale; };
     glm::vec3 getRotation() const { return m_Rotation; };
-/*
+
     glm::vec3 right();
     glm::vec3 left();
     glm::vec3 up();
     glm::vec3 down();
     glm::vec3 forwards();
     glm::vec3 backwards();
-*/
+
     glm::mat4 getModel();
 private:
     glm::vec3 m_Position;
