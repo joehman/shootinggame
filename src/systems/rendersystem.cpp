@@ -4,15 +4,16 @@
 #include <ecs/scene.hpp>
 
 #include <core/debug/log.hpp>
+#include <core/time.hpp>
 
 #include <components/meshfilter.hpp>
 #include <components/transform.hpp>
 #include <components/camera.hpp>
+#include <components/material.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <ecs/entity.hpp>
-#include <memory>
 
 Entity* RenderSystem::mainCamera = NULL;
 Shader defaultShader;
@@ -29,11 +30,20 @@ void RenderSystem::update(Scene& scene)
 
     for (auto entity : renderEntities)
     {
+        auto material = scene.getRegistry().try_get<Material>(entity);
         auto meshfilter = scene.getRegistry().try_get<MeshFilter>(entity);
         auto transform = scene.getRegistry().try_get<Transform>(entity);
         
         auto camera = mainCamera->GetComponent<Camera>();
-        auto view = mainCamera->GetComponent<Transform>();
+        auto cameraModel = mainCamera->GetComponent<Transform>();
+
+        Shader* usedShader; 
+        if (material)
+        {
+            usedShader = &material->shader;
+        } else {
+            usedShader = &defaultShader;
+        }
 
         if (transform == NULL)
         {
@@ -41,14 +51,12 @@ void RenderSystem::update(Scene& scene)
             continue; // skip
         }
 
-        //auto shader = scene.getRegistry().get<Material>(entity); 
-
-        defaultShader.use();
+        usedShader->use();
         
-        defaultShader.setMat4("perspective", camera.getProjection());
-        defaultShader.setMat4("model", transform->getModel());
-        defaultShader.setMat4("view", glm::inverse(view.getModel()));
-            
+        usedShader->setMat4("perspective", camera.getProjection());
+        usedShader->setMat4("model", transform->getModel());
+        usedShader->setMat4("view", cameraModel.getViewModel());
+        
         glBindVertexArray(meshfilter->mesh.VAO);
         glDrawArrays(GL_TRIANGLES, 0, meshfilter->mesh.vertices.size());
     }
@@ -56,7 +64,7 @@ void RenderSystem::update(Scene& scene)
 }
 void RenderSystem::init(Scene& scene)
 {
-    defaultShader = Shader("shaders/vshader.vert", "shaders/fshader.frag");
+    defaultShader = Shader("shaders/defaultshader.vert", "shaders/defaultshader.frag");
     auto renderEntities = scene.getEntitiesWithComponent<MeshFilter>();
 
     for (auto entity : renderEntities)

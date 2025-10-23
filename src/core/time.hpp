@@ -8,9 +8,14 @@ public:
     static void frameStart(); 
 
     static float deltaTime() { return m_DeltaTime; }
+    
+    //number of seconds passed since the start of the application
+    static float time() { return m_Time; }
 private:
-    static std::chrono::steady_clock::time_point m_PreviousFrame;
+    static std::chrono::steady_clock::time_point m_PreviousFrame; 
+
     static float m_DeltaTime;
+    static float m_Time;
 };
 
 class Timer {

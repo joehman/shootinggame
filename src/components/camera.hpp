@@ -1,5 +1,6 @@
 
 #include <glm/glm.hpp>
+#include <components/transform.hpp>
 
 struct Camera {
 public:

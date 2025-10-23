@@ -39,17 +39,35 @@ glm::mat4 Transform::getModel()
     }
 
     this->m_Model = glm::mat4(1.0f);
-    this->m_Model = glm::translate(this->m_Model, this->m_Position);
-    //ADD ROTATION HERE
+    
     this->m_Model = glm::scale(this->m_Model, this->m_Scale);
+
+    this->m_Model = glm::rotate(this->m_Model, glm::radians(this->m_Rotation.x), {1,0,0});
+    this->m_Model = glm::rotate(this->m_Model, glm::radians(this->m_Rotation.y), {0,1,0});
+    this->m_Model = glm::rotate(this->m_Model, glm::radians(this->m_Rotation.z), {0,0,1});
+
+    this->m_Model = glm::translate(this->m_Model, this->m_Position);
+
+    this->m_HasChanged = false;
 
     return m_Model; 
 }
+glm::mat4 Transform::getViewModel()
+{
+    glm::mat4 model = glm::mat4(1.0f);
 
+    model = glm::rotate(model, -m_Rotation.z, glm::vec3(0,0,1));
+    model = glm::rotate(model, -m_Rotation.x, glm::vec3(1,0,0));
+    model = glm::rotate(model, -m_Rotation.y, glm::vec3(0,1,0));
+
+    model = glm::translate(model, -m_Position);
+
+    return model;
+}
 
 glm::vec3 Transform::right() 
 {
-    return glm::normalize(getModel()[0]);
+    return getModel()[0];
 }
 glm::vec3 Transform::left()
 {
@@ -57,7 +75,7 @@ glm::vec3 Transform::left()
 }
 glm::vec3 Transform::up()
 {
-    return glm::normalize(getModel()[1]);
+    return getModel()[1];
 }
 glm::vec3 Transform::down()
 {
@@ -65,7 +83,7 @@ glm::vec3 Transform::down()
 }
 glm::vec3 Transform::backwards()
 {
-    return glm::normalize(getModel()[2]);
+    return getModel()[2];
 }
 glm::vec3 Transform::forwards()
 {

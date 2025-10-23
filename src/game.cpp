@@ -1,4 +1,3 @@
-#include <chrono>
 #include <game.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -10,8 +9,10 @@
 #include <components/transform.hpp>
 #include <components/camera.hpp>
 #include <components/player.hpp>
+#include <components/material.hpp>
 
 #include <systems/rendersystem.hpp>
+#include <systems/playersystem.hpp>
 
 #include <core/debug/log.hpp>
 #include <core/time.hpp>
@@ -33,7 +34,6 @@ void Game::init(GameSettings settings)
     m_Window.makeContextCurrent();
 
     Window::loadGL();
-    
     this->setActualGLVersion();
     
     glEnable(GL_DEPTH_TEST);
@@ -54,12 +54,16 @@ void Game::start()
     std::vector<float> vec(sizeof(vertices));
     vec.assign(&vertices[0], &vertices[9]);
 
-    testobj.AddComponent<Transform>(glm::vec3(0,0,0), glm::vec3(1,1,1), glm::vec3(0,0,0));
-    testobj.AddComponent<MeshFilter>(Mesh(vec));
 
-    camera.AddComponent<Transform>(glm::vec3(0,0, 3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
+    testobj.AddComponent<Transform>(glm::vec3(10,0,0), glm::vec3(1,1,1), glm::vec3(0,0,0));
+    testobj.AddComponent<MeshFilter>(Mesh(vec));
+    testobj.AddComponent<Material>(Shader("shaders/defaultshader.vert", "shaders/defaultshader.frag"));
+
+    camera.AddComponent<Transform>(glm::vec3(10, 0, 3.0f), glm::vec3(1,1,1), glm::vec3(0,0,0));
     camera.AddComponent<Camera>((float)m_Window.getWidth()/(float)m_Window.getHeight());
-    camera.AddComponent<Player>();
+    camera.AddComponent<Player>(&m_Window);
+
+    PlayerSystem::start(&camera);
 
     RenderSystem::setMainCamera(&camera);
 
@@ -69,14 +73,15 @@ void Game::start()
 
 void Game::frame()
 { 
-    
     RenderSystem::init(mainScene);
 
     while (!m_Window.shouldClose())
     {
         Time::frameStart();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        PlayerSystem::update();
 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         RenderSystem::update(mainScene);
 
         m_Window.updateWindow();

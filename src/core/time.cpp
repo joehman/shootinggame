@@ -4,7 +4,9 @@
 using _clock = std::chrono::steady_clock;
 
 _clock::time_point Time::m_PreviousFrame = Time::now();
+
 float Time::m_DeltaTime = 0;
+float Time::m_Time = 0;
 
 _clock::time_point Time::now()
 {
@@ -16,8 +18,9 @@ void Time::frameStart()
     auto now = Time::now();
     
     Time::m_DeltaTime = std::chrono::duration<float>(now - m_PreviousFrame).count();
+    Time::m_PreviousFrame = now;
 
-    Time::m_PreviousFrame = now; 
+    Time::m_Time += m_DeltaTime;
 }
 
 void Timer::start()
@@ -37,4 +40,3 @@ float Timer::elapsed()
     }
     return std::chrono::duration<float>(Time::now() - m_StartTime).count(); 
 }
-

@@ -3,8 +3,10 @@
 class PlayerSystem 
 {
 public:
-    static void start(const Scene& mainScene);
-    static void update(const Scene& mainScene);
+    static void start(Entity* player);
+    static void update();
+
+    static Entity* getPlayer() { return PlayerSystem::player; }
 
 private:
     static Entity* player; 

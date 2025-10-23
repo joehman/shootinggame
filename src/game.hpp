@@ -25,5 +25,3 @@ private:
     int m_GLVersionMajor = -1;
     int m_GLVersionMinor = -1;
 };
-
-void debugCallback( GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);

@@ -2,6 +2,7 @@
 #include <core/debug/log.hpp>
 
 #include "window.hpp"
+#include "GLFW/glfw3.h"
 
 void Window::init(int desiredGLVersionMajor, int desiredGLVersionMinor, GLFWerrorfun glfwErrorCallback)
 {
@@ -16,6 +17,7 @@ void Window::init(int desiredGLVersionMajor, int desiredGLVersionMinor, GLFWerro
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, desiredGLVersionMinor);
 
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 }
 void Window::loadGL()
 {
@@ -90,4 +92,14 @@ void Window::updateWindow()
 {
     glfwSwapBuffers(this->m_Window);
     glfwPollEvents();
+}
+
+
+bool Window::getKey(int key)
+{
+    if (glfwGetKey(this->m_Window, key) == GLFW_PRESS)
+    {
+        return true;
+    }
+    return false;
 }

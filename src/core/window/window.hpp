@@ -25,6 +25,9 @@ public:
     void close();
     void makeContextCurrent();
 
+    // use GLFW_KEY_YOURKEY
+    bool getKey(int key);
+
     int getWidth();
     int getHeight();
     bool shouldClose();

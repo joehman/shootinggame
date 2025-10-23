@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glm/glm.hpp>
 
 struct Transform {
@@ -13,9 +15,12 @@ public:
     void setScale(glm::vec3 scale);
     void setRotation(glm::vec3 rotation);
 
+    bool hasChanged() const { return m_HasChanged; }
+
     glm::vec3 getPosition() const { return m_Position; };
     glm::vec3 getScale() const { return m_Scale; };
     glm::vec3 getRotation() const { return m_Rotation; };
+
 
     glm::vec3 right();
     glm::vec3 left();
@@ -25,6 +30,7 @@ public:
     glm::vec3 backwards();
 
     glm::mat4 getModel();
+    glm::mat4 getViewModel();
 private:
     glm::vec3 m_Position;
     glm::vec3 m_Scale;

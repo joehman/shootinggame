@@ -1,8 +1,12 @@
+#include <core/window/window.hpp>
+
 struct Player 
 {
-    Player(float sensitivity = 1.0f) :
-        sensitivity(sensitivity)
+    Player(Window* window, float sensitivity = 1.0f) :
+        sensitivity(sensitivity),
+        window(window)
     {}
 
     float sensitivity;
+    Window* window;
 };
